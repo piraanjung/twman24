@@ -3,6 +3,9 @@
     <feature name="BluetoothPrinter">
         <param name="android-package" value="br.com.cordova.printer.bluetooth.BluetoothPrinter" />
     </feature>
+    <feature name="BarcodeScanner">
+        <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
+    </feature>
     <name>KP-TWMAN</name>
     <description>Bluetooth Printer Cordova plugin demo implementation.</description>
     <author href="https://www.andreszsogon.com/">Andres Zsögön</author>
