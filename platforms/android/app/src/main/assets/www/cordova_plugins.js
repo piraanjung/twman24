@@ -7,9 +7,18 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "BTPrinter"
       ]
+    },
+    {
+      "id": "phonegap-plugin-barcodescanner.BarcodeScanner",
+      "file": "plugins/phonegap-plugin-barcodescanner/www/barcodescanner.js",
+      "pluginId": "phonegap-plugin-barcodescanner",
+      "clobbers": [
+        "cordova.plugins.barcodeScanner"
+      ]
     }
   ];
   module.exports.metadata = {
-    "cordova-plugin-btprinter": "0.1.0-dev"
+    "cordova-plugin-btprinter": "0.1.0-dev",
+    "phonegap-plugin-barcodescanner": "8.1.0"
   };
 });

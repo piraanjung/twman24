@@ -9,6 +9,10 @@
   "installed_plugins": {
     "cordova-plugin-btprinter": {
       "PACKAGE_NAME": "com.andreszs.btprinter.demo"
+    },
+    "phonegap-plugin-barcodescanner": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+      "PACKAGE_NAME": "com.andreszs.btprinter.demo"
     }
   },
   "dependent_plugins": {}

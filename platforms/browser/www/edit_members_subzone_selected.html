@@ -98,7 +98,7 @@
         <div class="input-group mb-1 row">
           <input type="text" id="myInput" size="20" class="form-control col-10" placeholder="ค้นหา..."
             aria-label="Recipient's username" aria-describedby="button-addon2" />
-          <div class="text-right col-2">
+          <div class="text-right col-2" onclick="scanQR()">
             <i class="fas fa-qrcode h1" id="barcode"></i>
           </div>
         </div>
@@ -163,6 +163,30 @@
 
     <script type="text/javascript" src="js/api_url.js"></script>
     <script type="text/javascript" src="js/my.js"></script>
+
+    <script>
+      function scanQR() {
+        cordova.plugins.barcodeScanner.scan(
+        function (result) {
+          alert("Scanned code: " + result.text + "\nFormat: " + result.format + "\nCancelled: " + result.cancelled);
+        },
+        function (error) {
+          alert("Scanning failed: " + error);
+        },
+        {
+          preferFrontCamera: false, // default false
+          showFlipCameraButton: true, // default false
+          showTorchButton: true, // default false
+          torchOn: false, // default false
+          saveHistory: true, // default false (Android only)
+          prompt: "Place a QR code inside the scan area", // Android
+          resultDisplayDuration: 500, // Android, in ms
+          formats: "QR_CODE,PDF_417", // default: all
+          orientation: "portrait", // Android only
+        }
+      );
+    }
+    </script>
 
     <script>
       let membersSubzone;
