@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <!-- <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+    /> -->
+  <allow-intent href="*" />
+
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="viewport"
+    content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+  <link rel="stylesheet" type="text/css" href="css/index.css" />
+
+  <link rel="stylesheet" href="admin-lte/css/adminlte.css" />
+  <link rel="stylesheet" href="admin-lte/plugin/fontawesome-free/css/all.css" />
+
+  <script src="js/jquery-3.6.0.min.js"></script>
+  <title>BTPrinter Plugin Demo</title>
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="bg-light h-100">
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <!-- <li class="nav-item d-none d-sm-inline-block">
+    <a href="#" class="nav-link">Home</a>
+    </li>
+    <li class="nav-item d-none d-sm-inline-block">
+    <a href="#" class="nav-link">Contact</a>
+    </li> -->
+    </ul>
+
+
+  </nav>
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <nav>
+      <div class="card card-widget widget-user">
+
+        <div class="widget-user-header bg-info">
+          <h3 class="widget-user-username">ประปา</h3>
+          <h5 class="widget-user-desc">อบต.ขามป้อม</h5>
+        </div>
+        <div class="widget-user-image">
+          <img class="img-circle elevation-2" src="img/logohz.png" alt="User Avatar">
+        </div>
+
+      </div>
+      <ul class="nav sidebar-nav">
+        <div class="sidebar-header">
+          <div class="sidebar-brand">
+
+          </div>
+        </div>
+        <li style="list-style-type:none">&nbsp;</li>
+        <li style="list-style-type:none">&nbsp;</li>
+        <li style="list-style-type:none">&nbsp;</li>
+
+
+      </ul>
+      <div class="row p-3">
+        <div class="col-12"><a href="main.html" class="btn btn-info btn-block mt-3">หน้าหลัก</a></div>
+        <div class="col-12"><a href="cutmeter.html" class="btn btn-warning btn-block mt-3">ตัดมิเตอร์</a></div>
+        <div class="col-12"><a href="installmeter.html" class="btn btn-success btn-block mt-3">ติดตั้งมิเตอร์</a></div>
+        <div class="col-12"><a href="index.html" class="btn btn-danger btn-block mt-3">ออกจากระบบ</a></div>
+      </div>
+    </nav>
+  </aside>
+  <div id="wrapper" class="wrapper">
+    <!-- Page Content -->
+    <div id="header">
+      <div class="card card-widget widget-user">
+
+        <div class="widget-user-header text-white" style="background: url('admin-lte/img/photo1.png') center center;">
+          <h3 class="widget-user-username text-right">งานประปา</h3>
+          <h5 class="widget-user-desc text-right">ตัดมิเตอร์ <span class="zoneAndSubzone"></span></h5>
+        </div>
+        <div class="widget-user-image">
+          <img class="img-circle" src="img/logohz.png" alt="User Avatar">
+        </div>
+
+      </div>
+
+
+      <span class="info-box-icon h1" style="position: absolute;left: 10px;top: 90px;z-index: 10;">
+        <a href="main.html">
+          <i class="fas fa-chevron-circle-left"></i>
+        </a>
+      </span>
+    </div>
+    <!--header-->
+    <br>
+    <div class="card">
+      <div class="card-body">
+        <div class="input-group mb-1 row">
+          <input type="text" id="myInput" size="20" class="form-control col-10" placeholder="ค้นหา..."
+            aria-label="Recipient's username" aria-describedby="button-addon2" />
+          <div class="text-right col-2">
+            <i class="fas fa-qrcode h1" id="qrcode"></i>
+          </div>
+        </div>
+
+        <table style="width: 100%;">
+          <thead>
+            <tr>
+              <th>
+                รายชื่อผู้ถูกตัดมิเตอร์ <span id="member_init_status"> - </span> คน
+              </th>
+            </tr>
+          </thead>
+          <tbody id="myTable">
+
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal" style="display: none" aria-modal="true" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">ฟอร์มตัดมิเตอร์</h4>
+            <button type="button" class="close" id="closebtn" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="card card-info">
+              <div class="card-header" id="member_info"></div>
+
+              <div class="card-body">
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-6 col-form-label">เลขมิเตอร์ยกมา</label>
+                  <div class="col-5">
+                    <input type="text" class="form-control" style="font-size: 1.5rem !important" id="lastmeter"
+                      placeholder="" readonly />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputEmail3" class="col-6 col-form-label">เลขมิเตอร์ปัจจุบัน</label>
+                  <div class="col-5">
+                    <input type="number" class="form-control" style="font-size: 1.5rem !important" id="currentmeter"
+                      placeholder="" />
+
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="card-footer">
+                <button class="btn btn-info float-right hidden" id="savebtn">
+                  บันทึกข้อมูล
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+
+    <script type="text/javascript" src="js/api_url.js"></script>
+    <!-- <script type="text/javascript" src="js/my.js"></script> -->
+
+    <script>
+      let cutmeter_users;
+      let cur_meter = "";
+      let water_used = 0.0;
+      let paid_raw = 0.0;
+      let vat7
+      let inv_id = 0.0;
+      let totalpaid = 0.0;
+      let zone_id_selected;
+      let twman
+      let current_user_cutmeter;
+      let membersInitStatus;
+      let cutmeter_id;
+      $(document).ready(function () {
+        zone_id_selected = JSON.parse(window.localStorage.getItem('subzone_id_selected'));
+        twman = JSON.parse(window.localStorage.getItem('twman'));
+        window.localStorage.removeItem('data_from_serve')
+        $('#myTable').html('<span class="text-alert text-center">กำลังโหลดข้อมูล...</span>')
+
+        getCutmeter(zone_id_selected);
+      });
+
+
+
+      async function getCutmeter(subzone_id) {
+        cutmeter_users = await $.get(
+          API_URL +
+          "/api/cutmeter2/get_cutmeter_infos",
+          {},
+          function (data) {
+            console.log('JSON.parse(data)', JSON.parse(data))
+            return JSON.parse(data);
+          }
+        );
+
+        await cutmeterLists(JSON.parse(cutmeter_users));
+      }
+
+      $("#myInput").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+      });
+
+      async function cutmeterLists(cutmeter_users) {
+        let txt = "";
+        console.log('s', cutmeter_users)
+        cutmeter_users.forEach((element) => {
+          txt += `
+				<tr>
+					<td>
+					<div class="info-box" id="member${element.cutmeter_id}" data-lastmeter="${element.lastmeter}" data-inv_id="${element.meter_id_fk}">
+						<span class="info-box-icon bg-success" style="width:40px !important"><i class="fas fa-user-alt"></i></span>
+            <div class="info-box-content">
+							<span class="info-box-text" style="white-space:initial !important"> ${element.name}</span>
+							<span class="info-box-number text-primary"><b>${element.meternumber}</b> [ บ้านเลขที่ ${element.address} ${element.zone} ]</span>
+						</div>
+                       
+						<span class="info-box-icon" style="width:25px !important">
+							<a href="javascript:void(0)" onclick="goto_add_meter_info_of_user('${element.meter_id_fk}', '${element.cutmeter_id}')">
+								<i class="fas fa-cloud-upload-alt"></i>
+							</a>
+						</span>
+
+					</div>
+					</td>
+				</tr>`;
+        });
+
+        $('#member_init_status').html(Object.keys(cutmeter_users).length)
+
+        $("#myTable").html(txt);
+      }
+
+      async function goto_add_meter_info_of_user(meter_id, _cutmeter_id) {
+        current_user_cutmeter = "";
+        current_user_cutmeter = await JSON.parse(cutmeter_users).filter(function (v) {
+          return v.meter_id_fk == meter_id;
+        });
+
+        window.localStorage.setItem('selected_cutmeter_user', JSON.stringify(current_user_cutmeter))
+        inv_id = current_user_cutmeter[0].inv_id;
+        $("#member_info").html(`
+          <div>เลขมิเตอร์ ${current_user_cutmeter[0].meternumber}</div>
+          <div>${current_user_cutmeter[0].name
+          }</div>
+          <div>ที่อยู่ ${current_user_cutmeter[0].address + "" + current_user_cutmeter[0].zone
+          }</div>
+        `);
+        $(`#modal #lastmeter`).val(current_user_cutmeter[0].lastmeter);
+        // $(`#modal #currentmeter`).val(current_user_cutmeter[0].currentmeter);
+        $("#modal").addClass("show");
+        $("#modal").prop("style", "display:block");
+        cutmeter_id = _cutmeter_id
+      }
+
+      $("#closebtn").click(function () {
+        $("#modal").toggle();
+      });
+
+      $(document).on("keyup", "#currentmeter", function () {
+
+        cur_meter = parseFloat($("#currentmeter").val());
+        let lastmeter = parseFloat($('#lastmeter').val())
+        if (cur_meter >= lastmeter) {
+          $('#savebtn').removeClass('hidden')
+        } else {
+          $('#savebtn').addClass('hidden')
+        }
+
+        if (cur_meter === "") {
+          water_used = 0.0;
+          paid_raw = 0.0;
+          vat = 0.0;
+          inv_id = 0.0;
+          totalpaid = 0.0;
+        }
+        water_used =
+          cur_meter - parseFloat(current_user_cutmeter[0].lastmeter).toFixed(2);
+
+        paid_raw = water_used === 0 ? 10 : water_used * 8;
+
+        vat7 = paid_raw * parseFloat(0.07);
+
+        totalpaid = parseFloat(paid_raw + vat7).toFixed(2);
+      });
+
+      $(document).on("click", "#savebtn", function () {
+        let cutmeterInfos = JSON.parse(cutmeter_users);
+        let owesumExceptLastOwe = cutmeterInfos[0].owesum - cutmeterInfos[0].owesum_pop;
+        let _totalpaid = parseFloat(parseFloat(totalpaid) + parseFloat(owesumExceptLastOwe)).toFixed(2)
+        console.log('_totalpaid', _totalpaid)
+        window.localStorage.setItem('cutmeter_data_for_print', JSON.stringify({
+          inv_id: inv_id,
+          currentmeter: cur_meter,
+          water_used: water_used,
+          paid: paid_raw,
+          vat: vat7,
+          totalpaid: _totalpaid,
+          recorder_id: twman.id,
+          lastmeter: $('#lastmeter').val(),
+        }));
+        $.post(
+          `${API_URL}/api/cutmeter2/update_cutmeter`,
+          {
+            cutmeter_id: cutmeter_id,
+            inv_id: inv_id,
+            currentmeter: cur_meter,
+            water_used: water_used,
+            paid: paid_raw,
+            vat: vat7,
+            totalpaid: totalpaid,
+            recorder_id: twman.id,
+          },
+          function (result) {
+
+            setTimeout(function () {
+              window.location.href = 'printcutmeter.html'
+            }, 500)
+
+
+            $("#modal").toggle();
+          }
+        );
+      });
+
+      $(document).on('click', '.nav-link', function () {
+        $('body').addClass('layout-fixed sidebar-open')
+      })
+      $(document).on('click', '.wrapper', function () {
+        $('body').removeClass('layout-fixed sidebar-open')
+
+        $('body').addClass('sidebar-closed sidebar-collapse')
+      })
+
+
+      // function onDeviceReady() {
+      //   window.screen.orientation.lock("portrait");
+      // }
+      // document.addEventListener('deviceready', function(){
+      //   onDeviceReady()
+      // })
+
+    </script>
+</body>
+
+</html>

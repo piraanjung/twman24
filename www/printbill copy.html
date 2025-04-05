@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+
+  <link rel="stylesheet" type="text/css" href="css/index.css" />
+  <link rel="stylesheet" href="admin-lte/css/adminlte.css" />
+  <link rel="stylesheet" href="admin-lte/plugin/fontawesome-free/css/fontawesome.css" />
+
+  <script src="js/jquery-3.6.0.min.js"></script>
+  <title>BTPrinter Plugin Demo</title>
+  <style>
+  
+
+    body {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 14px;
+      background: #ffffff !important;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .small-box p {
+      font-size: 15px;
+    }
+
+    .unit {
+      /* font-size: 0.8rem; */
+      text-align: right;
+    }
+
+    .row {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      margin-right: 1px;
+      margin-left: 1px;
+    }
+
+    #logo_header {
+      .info-box .info-box-icon {
+        border-radius: 0.25rem;
+        -ms-flex-align: center;
+        align-items: center;
+        display: -ms-flexbox;
+        display: flex;
+        /* font-size: 1.875rem; */
+        -ms-flex-pack: center;
+        justify-content: center;
+        text-align: center;
+        width: 140px;
+        background-color: white
+      }
+
+      .info-box .info-box-number {
+        display: block;
+        font-weight: 700;
+        text-align: center;
+        font-size: 16px;
+      }
+
+      .info-box-text {
+        text-align: center;
+      }
+
+      .progress-description {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: center;
+      }
+
+      .progress-description .org_name {
+        font-size: 15px;
+        font-weight: bold;
+      }
+    }
+
+    #meter_infos {
+      .col-6 {
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+        margin-bottom: -10px;
+      }
+
+      p {
+        margin-top: 0;
+        margin-bottom: 0.2rem;
+        /* font-size: 18px; */
+      }
+    }
+
+    #user_info {
+      .col-4 {
+        position: relative;
+        width: 100%;
+        padding-right: 2px;
+        padding-left: 2px;
+      }
+
+      .card {
+        border: 1px solid black;
+        border-radius: 10px;
+      }
+
+      .widget-user-header {
+        height: 100px;
+        padding: 0.1rem;
+        text-align: end;
+      }
+
+      .description-header {
+        border-bottom: 1px solid black;
+      }
+
+      .widget-user .widget-user-image {
+        left: 0%;
+        margin-left: 0px;
+        position: absolute;
+        top: 15px;
+
+      }
+
+      .widget-user .widget-user-image>img {
+        border: 3px solid #ffffff;
+        height: auto;
+        width: 80px;
+      }
+
+      .widget-user .card-footer {
+        padding-top: 2px;
+      }
+
+      .card-footer {
+        border-top: 1px solid black;
+        /* background-color: white; */
+        color: black;
+      }
+    }
+
+
+    #summary {
+      .info-box .info-box-icon {
+        border-radius: 0.25rem;
+        -ms-flex-align: center;
+        align-items: center;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-pack: center;
+        justify-content: center;
+        text-align: center;
+        width: 30px;
+        height: 30px;
+      }
+
+      ul {
+        background-color: white;
+      }
+
+      li a {
+        border-bottom: 1px solid black;
+        color: #000;
+      }
+
+      .info-box-content {
+        border-radius: 0.25rem;
+        /* border: 2px solid black; */
+
+      }
+
+    }
+
+    #inv_infos li {
+      background-color: #ffffff;
+    }
+
+    #warningtext {
+      .card-body {
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        min-height: 1px;
+        padding: 0.1rem;
+        /* font-size: 1.12rem; */
+      }
+    }
+
+    .small-box>.inner {
+      padding: 2px !important;
+    }
+
+    .card-footer {
+      padding: 0.1rem 0.1rem;
+    }
+
+    .info-box {
+      /* border-radius: 0.25rem;
+      background: #ffffff;
+      display: -ms-flexbox;
+      display: flex; */
+      margin-bottom: 0.5rem;
+      /* min-height: 80px;
+      padding: .1rem;
+      position: relative;
+      border: 1px solid black; */
+    }
+
+    .widget-user .widget-user-username {
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+
+    .card-body {
+      -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+      min-height: 1px;
+      padding: 0.5rem;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 0 4px;
+    }
+
+    a {
+      text-align: left !important;
+      padding-top: 0px !important;
+      padding-right: 1px !important;
+    }
+
+    .owe_res {
+      text-align: center;
+      border: 1px solid black;
+
+    }
+
+    #totalpaid_data {
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .description-text {
+      text-transform: uppercase;
+      background-color: black;
+      color: white;
+      margin-top: 2px;
+      display: block;
+    }
+
+    .col-8 {
+      position: relative;
+      width: 100%;
+      padding-right: 2px;
+      padding-left: 2px;
+    }
+
+
+    .border-buttom-none {
+      border-bottom: 1px solid white;
+    }
+
+    .paid_summary_area {
+      border-left: 2px solid black;
+      border-right: 2px solid black;
+    }
+
+    .info-box .info-box-content {
+      -ms-flex: 1;
+      flex: 1;
+      padding: 0 !important;
+    }
+
+    .card {
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
+      margin-bottom: 0.1rem !important;
+    }
+
+    .card .nav.flex-column>li {
+      border-bottom: 0;
+      margin: 0;
+    }
+
+    .float-right>span.fontbold {
+      font-weight: bold;
+    }
+
+    /* #loader {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      width: 120px;
+      height: 120px;
+      margin: -76px 0 0 -76px;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    } */
+
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Add animation to "page content" */
+    .animate-bottom {
+      position: relative;
+      -webkit-animation-name: animatebottom;
+      -webkit-animation-duration: 1s;
+      animation-name: animatebottom;
+      animation-duration: 1s
+    }
+
+    @-webkit-keyframes animatebottom {
+      from {
+        bottom: -100px;
+        opacity: 0
+      }
+
+      to {
+        bottom: 0px;
+        opacity: 1
+      }
+    }
+
+    @keyframes animatebottom {
+      from {
+        bottom: -100px;
+        opacity: 0
+      }
+
+      to {
+        bottom: 0;
+        opacity: 1
+      }
+    }
+
+    .qrcode {
+      /* display: none; */
+      /* text-align: center; */
+    }
+
+    .spinner-wrapper {
+      width: 100%;
+      height: 100%;
+      z-index: 50;
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: antiquewhite;
+    }
+
+    .spinner-grow {
+      width: 100px;
+      height: 100px;
+      padding: 5px;
+    }
+  </style>
+</head>
+
+<body class="preload">
+
+  <div class="spinner-wrapper" style="display: none;">
+    <div class="spinner-grow text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-secondary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    
+  </div>
+  <br>
+  <button id="back_btn" class="btn btn-warning">
+    <<< กลับไปหน้าค้นหาผู้ใช้น้ำ
+  </button>
+  <br>
+  <div class="card " id="connect2">
+    <div class="card-header h4">เลือกปริ้นเตอร์</div>
+    <div class="card-body">
+      <h5>เชื่อมต่อบลูธูท</h5>
+      <div id="btnStatus_div">
+      <div>1. กดปุ่มสถานะเพื่อตรวจสอบว่าเปิดบลูธูทหรือยัง</div>
+      <button type="button" class="btn btn-info col-3 m-1" id="btnStatus">
+        สถานะ
+      </button>
+    </div>
+      <div>2. ทำการเลือกเครื่องปริ้นบลูธูทที่ต้องการใช้งาน</div>
+      <div id="connect_lists" class="">
+        <select size="1" id="btpPrinter" class="form-control-lg"></select>
+        <button type="button" class="btn btn-primary col-4 m-1" id="btnList">
+          เลือกบลูธูท
+        </button>
+      </div>
+      <div id="btnConnect_div" class="">
+        <div>3. ทำการเขื่อมต่อเครื่องปริ้นบลูธูทกับระบบ</div>
+        <button type="button" class="btn btn-success col-4 m-1" id="btnConnect">
+          เชื่อมต่อ
+        </button>
+
+
+      </div>
+    </div>
+  </div>
+  <div id="err">xx</div>
+  <div id="status">
+    connected
+  </div>
+</div>
+  <div class="row qrcode">
+
+    <div class="col-12 mb-3 mt-3">
+      <button id="printBase64_2" class="btn btn-success ">ปริ้นใบแจ้งหนี้</button>
+      
+    </div>
+  </div>
+
+  <div id="qrcode" style="
+         width: 300px;
+         height: 820px;
+       " class="mx-auto my-auto qrcode">
+    <div class="row">
+      <div class="col-8 text-center">
+        <img class="orglogo_bw" src="img/logogray_black_and_white.jpg" alt="" width="100">
+      </div>
+      <div class="col-8" id="logo_header">
+        <div class="info-box">
+
+          <div class="info-box-content">
+            <span class="info-box-number">
+              <div>ใบแจ้งหนี้ค่าน้ำประปา</div>
+            </span>
+            <span class="info-box-text">( ไม่ใช่ใบเสร็จรับเงิน )</span>
+            <div class="progress">
+              <div class="progress-bar" style="width: 100%; border: 1px solid black;"></div>
+            </div>
+            <span class="progress-description">
+              <!-- <div class="org_name">งานประปา</div> -->
+              <div class="org_short_name">อบต.ข้ามป้อม</div>
+              <div class="">โทร. <span class="org_phone">08-81005436</span></div>
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="row" id="user_info">
+      <div class="col-8">
+        <div class="card">
+          <div class="card-body">
+            <div class="text-left">ข้อมูลผู้ใช้น้ำ</div>
+
+            <div class="text-right" id="username_data"></div>
+            <div class="text-right" style="font-size: 13px;"><span id="address_data"></span> <span
+                id="user_zonename"></span> ต.ขามป้อม
+            </div>
+            <div class="text-right district_and_province" style="font-size: 13px;"> อ.พระยืน จ.ขอนแก่น </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row" id="summary">
+      <div class="col-8">
+        <div class="card">
+          <div class="info-box-content ">
+            <div class="card-footer p-0">
+              <ul class="nav flex-column inv_info">
+                <li class="nav-item">
+                  <a href="#" class="nav-link text-center text-bold bg-gray text-white">
+                    ประจำเดือน <span id="inv_period_data"></span>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="#" class="nav-link" style="border-bottom: 1px solid white;">
+                    ใบแจ้งหนี้ <span class="float-right" id="inv_no_data"></span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link" style="border-bottom: 1px solid white;">
+                    เลขผู้ใช้น้ำ <span class="float-right" id="user_id_data">xx</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link" style="border-bottom: 1px solid white;">
+                    เลขมิเตอร์ <span class="float-right" id="meter_id_data"></span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    วันจดมาตร <span class="float-right" id="record_date_data"></span>
+                  </a>
+                </li>
+
+
+                <li class="nav-item">
+                  <a href="#" class="nav-link" style="border-bottom: 1px solid white;">
+                    จดมาตรครั้งนี้ <span class="float-right"><span id="currentmeter_data"></span>
+                      <sup>หน่วย</sup></span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link" style="border-bottom: 1px solid white;">
+                    มาตรยกยอดมา <span class="float-right"><span id="lastmeter_data"></span> <sup>หน่วย</sup></span>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    ใช้น้ำจำนวน <span class="float-right"><span id="water_used_data"></span> <sup>หน่วย</sup></span>
+                  </a>
+                </li>
+                <li class="nav-item" style="border-top: 2px solid black;">
+                  <a href="#" class="nav-link paid_summary_area" style="border-bottom: 1px solid white;">
+                    ใช้น้ำคิดเป็นเงิน <span class="float-right"><span class="fontbold" id="raw_paid_data"></span>
+                      <sup>บาท</sup></span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link paid_summary_area" style="border-bottom: 1px solid white;">
+                    ค่ารักษามาตร <span class="float-right"><span class="fontbold" id="reserve_paid_data"> </span>
+                      <sup>บาท</sup></span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link paid_summary_area">
+                    ภาษีมูลค่าเพิ่ม <span class="float-right"><span class="fontbold" id="vat_data"></span>
+                      <sup>บาท</sup></span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="#" class="nav-link  paid_summary_area">
+                    <div>มียอดค้างชำระ <span id="owe_count_data"></span> รอบบิล</div>
+                    <div>
+                      รวมเป็นเงิน
+                      <span class="float-right"><span class="fontbold" id="owe_sum_data"></span> <sup>บาท</sup></span>
+                    </div>
+                  </a>
+                </li>
+
+                <li class="nav-item" style="border-bottom: 2px solid black;">
+                  <a href="#" class="nav-link paid_summary_area">
+                    <div>รวมที่ต้องชำระทั้งสิ้น </div>
+                    <div class="text-right text-bold"><span id="totalpaid_data"></span> <sup>บาท</sup></div>
+                  </a>
+                </li>
+              </ul>
+
+              <div id="paid" >
+                <div class="text-center bg-white">
+                  <div style="font-size: 13px;">สแกนจ่ายเข้าบัญชี งานประปา</div>
+                  <div style="font-size: 13px;" class="org_short_name"></div>
+                  <div id="qrcode_div"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" id="warningtext mb-1" style="border-bottom: 2px solid black;">
+      <div class="card card-outline card-danger col-8">
+        <div class="card-body text-center">
+          <div style="font-size: 13px;">โปรดชำระเงินภายในวันที่</div>
+          <div style="font-size: 16px; font-weight: bold;" id="expired_date_data"></div>
+          <div style="font-size: 13px;">
+            หากเกินกำหนดจะถูกระงับการใช้น้ำและ
+            จะจ่ายน้ำใหม่หลังจากได้รับการชำระหนี้ค้างทั้งหมดแล้ว
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!--div qrcode-->
+  <canvas id="myCanvas" width="220" height="750" style="opacity: 1"></canvas>
+  <!-- 1330 -->
+
+  <textarea id="mybase64" cols="3" style="opacity: 0"></textarea>
+  <textarea id="qrcode_textarea" style="opacity: 0"></textarea>
+  <!-- <div>canvastest</div> -->
+  <textarea id="canvastest" style="opacity: 0"></textarea>
+
+  </div>
+  <script type="text/javascript" src="cordova.js"></script>
+  <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
+  <script type="text/javascript" src="js/api_url.js"></script>
+  <script type="text/javascript" src="js/qrcode.js"></script>
+  <script type="text/javascript" src="js/my.js"></script>
+  <script type="text/javascript" src="js/html2canvas.js"></script>
+  <script>
+    let imgData;
+    let data_for_print;
+    let selected_member;
+    let subzone_selected;
+    let twman;
+    let data_from_serve;
+    let price_per_unit_selected;
+    let paid_raw;
+    let vat7;
+    let totalpaid;
+    let inv_period;
+    $(document).on("click", "#back_btn", function () {
+      if(localStorage.hasOwnProperty('edit_page')){
+                window.location.href = "edit_members_subzone_selected.html";
+              }else{
+                window.location.href = "members_subzone_selected.html";
+              }
+    });
+
+    $(document).ready(function () {
+      let org = 'org';//JSON.parse(window.localStorage.getItem('org'));
+      console.log('sfd', org)
+      set_org_infos(org)
+    })
+    $(document).ready(async function () {
+
+      let connect_status = window.localStorage.getItem("connect_status");
+      data_for_print = JSON.parse(
+        window.localStorage.getItem("data_for_print")
+      );
+
+      selected_member = JSON.parse(
+        window.localStorage.getItem("selected_member")
+      );
+
+      inv_period = JSON.parse(window.localStorage.getItem('inv_period'))
+
+      twman = JSON.parse(window.localStorage.getItem("twman"));
+
+      let membersSubzone = JSON.parse(window.localStorage.getItem('membersSubzone'))
+
+      let subzone_index_selected = window.localStorage.getItem('subzone_index_selected');
+
+
+
+      //สร้าง canvas และ ตัวแปร
+      await onCanvas();
+      let twTemp = twman
+      window.localStorage.removeItem('twman')
+      window.localStorage.setItem('twman', JSON.stringify(twTemp))
+
+      //แปลง ข้อมูลใน div เป็น canvas base64  แล้วแปลงเป็น image
+      // html2canvas(document.getElementById("qrcode")).then(function (
+      //   canvas2
+      // ) {
+      //   imgData = canvas2.toDataURL(
+      //     "image/jpeg"
+      //   );
+      //   $('#canvastest').val(imgData)
+      // });
+
+
+      if (connect_status == 1) {
+        console.log("connect_status === 1")
+        // $("#printBase64_2").removeClass("hidden");
+        $("#connect2").addClass("hidden");
+        $("#status").html("ทำการเชื่อมต่อบลูธูทแล้ว อุปกรณ์พร้อมใช้งาน");
+        
+        // autoPrintBase64();
+      } else {
+        console.log("connect_status != 1")
+       // autoPrintBase64();
+
+        window.localStorage.setItem("connect_status", 1);
+        // $("#printBase64_2").addClass("hidden");
+        //onCanvas();
+        //autoPrintBase64();
+
+      }
+    });
+
+    $(document).on("change", "#btpPrinter", function () {
+      // $("#btnConnect_div").removeClass("hidden");
+    });
+
+    $(document).on("click", "#btnList", function () {
+      // $("#btnConnect_div").removeClass("hidden");
+    });
+
+    async function onCanvas() {
+      let results = await upload_data_to_serve()
+      console.log(results)
+      let _date = new Date();
+      let m_invPeroid = _date.getMonth() + 1;
+      let m_invPeroid_formate =
+        m_invPeroid < 10 ? `0${_date.getMonth() + 1}` : _date.getMonth() + 1;
+      let y_invPeroid = _date.getFullYear();
+      let y_th_invPeroid = y_invPeroid + 543;
+      let y_th_invPeroid_substr = y_th_invPeroid.toString().substr(2);
+      let lastdate = new Date(y_invPeroid, m_invPeroid, 0).getDate();
+      var months_th = [
+        "มกราคม",
+        "กุมภาพันธ์",
+        "มีนาคม",
+        "เมษายน",
+        "พฤษภาคม",
+        "มิถุนายน",
+        "กรกฎาคม",
+        "สิงหาคม",
+        "กันยายน",
+        "ตุลาคม",
+        "พฤศจิกายน",
+        "ธันวาคม",
+      ];
+
+      var months_short_th = [
+        "ม.ค.",
+        "ก.พ.",
+        "มี.ค.",
+        "เม.ย.",
+        "พ.ค.",
+        "มิ.ย.",
+        "ก.ค",
+        "ส.ค.",
+        "ก.ย.",
+        "ต.ค.",
+        "พ.ย.",
+        "ธ.ค.",
+      ];
+      // let today = new Date()
+      // let expired_date_date_15day = new Date();
+      let currentTime = new Date().getTime();
+      let updatedTIme = new Date(currentTime + 15 * 24 * 60 * 60 * 1000);
+      let dateAdd15daysArr = updatedTIme.toLocaleDateString().split("/");
+      let expiredDateNext15Day = `${dateAdd15daysArr[1]}  ${months_th[dateAdd15daysArr[0]]} ${parseInt(dateAdd15daysArr[2]) + 543}`
+      let expire_date_server_split = results.res.datas.expire_date.split("-");
+
+      let expire_date_thai_year = parseInt(expire_date_server_split[0]) + 543;
+      let expire_date_thai_month = months_th[expire_date_server_split[1] - 1];
+      let expire_date_server = expire_date_server_split[2] + " " + expire_date_thai_month + " " + expire_date_thai_year;
+
+      let inv_p_arr = twman.inv_period[0].inv_p_name.split("-");
+      let inv_period_month_name = months_th[parseInt(inv_p_arr[0]) - 1];
+      let curr_month_th = months_th[parseInt(inv_p_arr[0] - 1)];
+      let curr_month_short_th = months_short_th[parseInt(inv_p_arr[0]) - 1];
+      let save_date =
+        _date.getDate() +
+        " " +
+        curr_month_short_th +
+        " " +
+        y_th_invPeroid_substr;
+
+
+      //สร้างตัวแปรใน 
+
+      $('#inv_period_data').html(inv_period_month_name + " " + y_th_invPeroid_substr)
+
+      $('#inv_no_data').html(results.res.datas.inv_no)
+      $('#user_id_data').html(selected_member[0].user_id)
+      $('#address_data').html(selected_member[0].address)
+      $('#user_zonename').html(selected_member[0].user_zonename)
+
+      $('#meter_id_data').html(selected_member[0].meternumber)
+      $('#username_data').html(selected_member[0].prefix + "" + selected_member[0].firstname + " " + selected_member[0].lastname)
+      $('#record_date_data').html(save_date)
+      $('#lastmeter_data').html(parseInt(data_for_print.lastmeter))
+      $('#currentmeter_data').html(data_for_print.currentmeter)
+      $('#expired_date_data').html(expire_date_server)
+
+
+      let reserve = 10;// results.res.datas.inv_infos.water_used === 0 ? 10 : 0;
+
+      console.log('results.res', results)
+      $('#water_used_data').html(parseInt(results.res.datas.water_used))
+      $('#raw_paid_data').html(parseFloat(results.res.datas.paid).toFixed(2))
+      $("#reserve_paid_data").html(parseFloat(reserve).toFixed(2))
+      $("#vat_data").html(parseFloat(results.res.datas.vat).toFixed(2))
+      $('#owe_count_data').html(results.res.datas.owe_count)
+
+
+      $('#owe_sum_data').html(results.res.datas.owe_sum)
+      // let net = parseFloat(results.res.datas.owe_sum) + parseFloat(results.res.datas.inv_infos.totalpaid)
+      let net_paid = (parseFloat(results.res.datas.owe_sum) + parseFloat(results.res.datas.paid) + parseFloat(reserve)).toFixed(2)
+      console.log(results.res.datas.net_paid)
+      $("#totalpaid_data").html(net_paid)
+      // $("#net_paid_in_qrcode_div").html(net_paid + " บาท")
+
+
+
+      let zero18 = "000000000000000000";
+      $("#qrcode #qrcode_div").html("")
+      let inv_no = '000111'//results.res.datas.inv_no.length
+      let inv_id =
+        zero18.slice(0, 18 - inv_no) +
+        "" +
+        results.res.datas.inv_no;
+      let meter_id =
+        zero18.slice(0, 18 - selected_member[0].user_id.toString().length) +
+        "" +
+        selected_member[0].user_id;
+
+      let payment_str = `|099400035262000\n${meter_id}\n${inv_id}\n${net_paid.toString().replace(".", "")}`;
+      $("#qrcode_textarea").val(payment_str);
+      console.log('payment_str', payment_str)
+      //สร้่าง qrcode ใน div
+      $("#qrcode #qrcode_div").append()
+        .qrcode({
+          width: 140,
+          height: 140,
+          text: $("#qrcode_textarea").val(),
+        });
+
+
+      $(".qrcode").css('display', "block");
+    }
+
+
+    document
+      .getElementById("printBase64_2")
+      .addEventListener("click", function () {
+        // $('.spinner-wrapper').css('display', 'block')
+
+        setTimeout(() => {
+          createCanvasToBase64().then(function () {
+          BTPrinter.printBase64(
+            function (data) {
+              console.log("Success");
+              $('#err').text('Success')
+              console.log(data);
+              if(localStorage.hasOwnProperty('edit_page')){
+                // window.location.href = "edit_members_subzone_selected.html";
+              }else{
+                // window.location.href = "members_subzone_selected.html";
+              }
+            },
+            function (err) {
+              console.log("Error");
+              console.log(err);
+              $('#err').text(JSON.stringify(err))
+            },
+            imgData,
+            0
+          ); //base64 string, a
+        });
+        }, 300);
+        
+      });
+
+    async function upload_data_to_serve() {
+      // let org = JSON.parse(window.localStorage.getItem('org'));
+      console.log('data', data_for_print)
+      return await $.post(
+        `${API_URL}/api/invoice/create_for_mobile_app`,
+        {
+          inv_id: data_for_print.inv_id,
+          currentmeter: data_for_print.currentmeter,
+          water_used: data_for_print.water_used,
+          org_id: 2,//twman[0].settings_id_fk,
+          recorder_id: twman.id,
+        },
+        function (result) {
+          console.log('ressss', result)
+          return result;
+
+
+        })
+    }
+    function autoPrintBase64() {
+      BTPrinter.printBase64(
+        function (data) {
+          console.log("Success");
+          console.log(data);
+          if(localStorage.hasOwnProperty('edit_page')){
+                window.location.href = "edit_members_subzone_selected.html";
+              }else{
+                window.location.href = "members_subzone_selected.html";
+              }
+        },
+        function (err) {
+          console.log("Error");
+          console.log(err);
+        },
+        imgData,
+        0
+      ); //base64 string, a
+    }
+
+    async function createCanvasToBase64() {
+      var canvas = document.getElementById("myCanvas");
+
+      // imgData = canvas.toDataURL();
+      // document.getElementById("mybase64").innerHTML = imgData;
+    }
+
+    // function onDeviceReady() {
+    //   window.screen.orientation.lock("portrait");
+    // }
+    // document.addEventListener('deviceready', function () {
+    //   onDeviceReady()
+    // })
+
+  </script>
+</body>
+
+</html>

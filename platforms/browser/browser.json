@@ -1,0 +1,28 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-btprinter": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
+    }
+  },
+  "dependent_plugins": {},
+  "modules": [
+    {
+      "file": "plugins/cordova-plugin-btprinter/www/BluetoothPrinter.js",
+      "id": "cordova-plugin-btprinter.BluetoothPrinter",
+      "pluginId": "cordova-plugin-btprinter",
+      "clobbers": [
+        "BTPrinter"
+      ]
+    }
+  ],
+  "plugin_metadata": {
+    "cordova-plugin-btprinter": "0.1.0-dev"
+  }
+}

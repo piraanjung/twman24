@@ -1,0 +1,21 @@
+{
+  "devDependencies": {
+    "cordova-android": "^13.0.0",
+    "cordova-browser": "^7.0.0",
+    "cordova-plugin-barcodescanner": "^0.7.4",
+    "cordova-plugin-btprinter": "github:CesarBalzer/Cordova-Plugin-BTPrinter",
+    "cordova-plugin-compat": "^1.2.0"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-btprinter": {}
+    },
+    "platforms": [
+      "android",
+      "browser"
+    ]
+  },
+  "dependencies": {
+    "cordova-sqlite-storage-dependencies": "^4.1.0"
+  }
+}

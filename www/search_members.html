@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="content-encoding" value="UTF-8" />
+		<!-- <meta http-equiv="Content-Security-Policy" content="default-src * gap: ws: https://ssl.gstatic.com;style-src * 'unsafe-inline' 'self' data: blob:;script-src * 'unsafe-inline' 'unsafe-eval' data: blob:;img-src * data: 'unsafe-inline' 'self' content:;"> -->
+        <meta name="format-detection" content="telephone=no">
+		<meta name="msapplication-tap-highlight" content="no">
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+		<link rel="stylesheet" type="text/css" href="admin-lte/css/adminlte.min.css">
+		<link rel="stylesheet" href="admin-lte/plugin/fontawesome-free/css/all.css">
+		<script src="js/jquery-3.6.0.min.js"></script>
+
+		
+		<title>ประปาแอพ</title>
+
+
+	<style>
+		table {
+			font-family: arial, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+		}
+		.border-success{
+			border: 2px solid green;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<div id="header">
+			<div class="card card-widget widget-user">
+
+				<div class="widget-user-header text-white" style="background: url('admin-lte/img/photo1.png') center center;">
+					<h3 class="widget-user-username text-right">งานประปา</h3>
+					<h5 class="widget-user-desc text-right">ผู้ใช้น้ำ <span class="zoneAndSubzone"></span></h5>
+				</div>
+				<div class="widget-user-image">
+					<img class="img-circle" src="images/hslogo.jpg" alt="User Avatar">
+				</div>
+		
+			</div>
+
+
+			<span class="info-box-icon h1" style="position: absolute;left: 10px;top: 90px;z-index: 10;">
+				<a href="main.html">
+					<i class="fas fa-chevron-circle-left"></i>
+				</a>
+			</span>
+		</div>
+		<!--header-->
+		<br>
+		<div id="mybody" class="mt-3">
+			<div class="card">
+				<div class="card-body">
+					<div class="input-group mb-1 row">
+						<input type="text" id="myInput" size="20" class="form-control col-10" placeholder="ค้นหา..." aria-label="Recipient's username" aria-describedby="button-addon2">
+						<div class=" text-right col-2 ">
+						<i class="fas fa-qrcode h1" id="barcode"></i>
+						</div>
+					</div>
+					
+					<table>
+						<thead>
+							<tr>
+								<th>&nbsp;</th>
+
+							</tr>
+						</thead>
+						<tbody id="myTable"></tbody>
+					</table>
+				</div>
+				<!--card-body-->
+			</div>
+			<!--card-->
+		</div>
+	</div>
+	<!--mybody-->
+<!-- 
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="scripts/platformOverrides.js"></script>
+	<script type="text/javascript" src="scripts/index.js"></script>
+	<script type="text/javascript" src="scripts/databaseHandler.js"></script>
+	<script type="text/javascript" src="scripts/memberHandler.js"></script>
+	<script type="text/javascript" src="scripts/api_url.js"></script> -->
+		<script>
+		$(document).ready(function () {
+			$("#myInput").on("keyup", function () {
+				var value = $(this).val().toLowerCase();
+				$("#myTable tr").filter(function () {
+					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				});
+			});
+
+			
+
+		});
+;
+	</script>
+	<script>
+		// const API_URL = 'http://localhost:9000';
+        let subzones 
+		$(document).ready(function () {
+			window.localStorage.removeItem('meter_id')
+			window.localStorage.removeItem('currentmeter')
+			window.localStorage.removeItem('memberInfo')
+
+			let twman = JSON.parse( window.localStorage.getItem('twman'));
+			let subzone_selected = JSON.parse( window.localStorage.getItem('subzone_selected'));
+            console.log('twman', twman)
+			if(window.localStorage.getItem('subzone_selected') === null){
+				window.localStorage.setItem('subzone_selected', JSON.stringify(twman.data.undertaker_subzone));
+				subzones = twman.data.undertaker_subzone;
+			}else{
+				subzones = JSON.parse(window.localStorage.getItem('subzone_selected'))
+			}
+			// '.zoneAndSubzone').text(`เส้น ${.subzone.subzone_name} `); //`หมู่ ${twman2.data.user_profile.zone_id} 
+			getMemberInSubzone()
+		});
+
+        async function getMemberInSubzone(subzone_id) {
+            console.log("subzone_id", subzone_id);
+
+            let members = await $.get(
+            API_URL +
+                "/api/subzone/get_members_last_inactive_invperiod/" +
+                subzone_id,
+            {},
+            function (data) {
+                return data;
+            }
+            );
+            
+        }//fn
+
+	
+		function displayProducts(results) {
+			// console.log('results', results.rows)
+			var length = results.rows.length;
+			text = '';
+			// console.log(results.rows[0])
+			Object.keys(results.rows).forEach((key) => {
+				// console.log('element', results.rows[key].name)
+				text += `
+				<tr>
+					<td>
+					<div class="info-box">
+						<span class="info-box-icon bg-success" style="width:40px !important"><i class="fas fa-user-alt"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text" style="white-space:initial !important">${results.rows[key].name}</span>
+							<span class="info-box-number text-primary"><b>${results.rows[key].meternumber}</b> [ บ้านเลขที่ ${results.rows[key].address} ]</span>
+						</div>
+						<!-- /.info-box-content -->
+						<span class="info-box-icon" style="width:25px !important">
+							<a href="javascript:void(0)" onclick="goto_add_meter_info_of_user('${results.rows[key].meter_id}')">
+								<i class="fas fa-arrow-circle-right"></i>
+							</a>
+						</span>
+
+					</div>
+					</td>
+				</tr>
+			`;
+			});
+
+			$('#myTable').html(text)
+		}
+
+		function goto_add_meter_info_of_user(meter_id) {
+			window.localStorage.setItem('meter_id', meter_id);
+			window.location.href= 'add_meter_info_of_user.html'
+		}
+
+		$(document).on('click', '.nav-link', function(){
+        $('body').addClass('layout-fixed sidebar-open')
+      })
+      $(document).on('click', '.wrapper',function() {
+        $('body').removeClass('layout-fixed sidebar-open')
+
+        $('body').addClass('sidebar-closed sidebar-collapse')
+      })
+
+	</script>
+</body>
+
+</html>

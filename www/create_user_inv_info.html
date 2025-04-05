@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+    /> -->
+    <allow-intent href="*" />
+
+    <meta name="format-detection" content="telephone=no" />
+    <meta
+      name="viewport"
+      content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height"
+    />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+
+    <link rel="stylesheet" href="admin-lte/css/adminlte.css" />
+    <link
+      rel="stylesheet"
+      href="admin-lte/plugin/fontawesome-free/css/all.css"
+    />
+
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <title>BTPrinter Plugin Demo</title>
+    <style>
+      #myCanvas {
+        background: white;
+        border: 1px solid red;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    usermame
+    <input
+      type="text"
+      class="form-control"
+      id="username"
+      name="username"
+      value="twman1"
+    />
+    password
+    <input
+      type="password"
+      class="form-control"
+      name="password"
+      id="password"
+      value="123456"
+    />
+
+    <button id="submit_btn">เข้าสู่ระบบ2</button>
+
+    <!-- main.html -->
+    <div class="direct-chat-msg mb-4">
+      <!-- <img class="direct-chat-img" src="images/hslogo.jpg" alt="Message User Image"> -->
+      <div class="direct-chat-text bg-warning h5">
+        เส้นทางจดมิเตอร์ที่รับผิดชอบ
+      </div>
+    </div>
+
+    <div class="row" id="subzone">xx</div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="input-group mb-1 row">
+          <input
+            type="text"
+            id="myInput"
+            size="20"
+            class="form-control col-10"
+            placeholder="ค้นหา..."
+            aria-label="Recipient's username"
+            aria-describedby="button-addon2"
+          />
+          <div class="text-right col-2">
+            <i class="fas fa-qrcode h1" id="barcode"></i>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody id="myTable"></tbody>
+        </table>
+      </div>
+      <!--card-body-->
+    </div>
+ss
+    <div
+      class="modal fade show"
+      id="modal-default"
+      style="display: block"
+      aria-modal="true"
+      role="dialog"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Default Modal</h4>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>One fine body…</p>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  
+    <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="js/api_url.js"></script>
+    <script type="text/javascript" src="admin-lte/js/adminlte.min.js"></script>
+    <script type="text/javascript" src="admin-lte/js/demo.js"></script>
+
+    <script>
+
+      $("#submit_btn").click(() => {
+        let params = {
+          username: $("#username").val(),
+          passwords: $("#password").val(),
+          // username: "twman1", //$('#username').val(),
+          // passwords: "123456",
+          user_cate_id: 5,
+        };
+        let text = "";
+        $.post(`${API_URL}/api/users/authen`, params, function (response) {
+          let res = JSON.parse(JSON.stringify(response));
+          console.log("res", res);
+          window.localStorage.setItem("twman", JSON.stringify(res.data));
+          res.data.undertaker_subzone.forEach((element) => {
+            text += `
+					<div class="col-md-3 col-sm-6 col-12">
+						<div class="info-box m-2">
+							<span id="loaddata${element.subzone_id}" data-subzone_id="${element.subzone_id}" data-subzone_name ="${element.subzone_name}"
+								class="info-box-icon bg-warning loaddata loaded${element.subzone_id} " ><i class="fas fa-download"></i></span>
+
+							<div class="info-box-content">
+								<span class="info-box-number mb-1">เส้น - ${element.subzone.subzone_name}</span>
+								<span class="info-box-text aa${element.subzone_id} mb-1"></span>
+								<a href="javascript:void(0)" data-edit-id="${element.subzone_id}" data-twman_index="${element.subzone_id}" class="btn btn-warning btn-block editbtn edit${element.subzone_id} hidden">
+									<i class="far fa-user h3 text-white "></i>แก้ไข [${element.subzone_id}]</a>
+							
+							</div>
+							<a href="javascript:void(0)"  data-subzone_id="${element.subzone_id}"  
+                    data-twman_index="${element.subzone_id}"  
+                    class="info-box-icon bg-primary  gotoRemainBtn pt-2  hidden">
+                    <i class="fas fa-chevron-circle-right"></i>
+              </a>
+						</div>
+					</div>
+					
+					
+				`;
+          });
+          $("#subzone").html(text);
+          $(".overlay").removeClass("hidden");
+
+          if (res.code === 200) {
+            $(".overlay").removeClass("hidden");
+          } else {
+            $("#err").html("ไม่พบผู้ใช้งาน");
+          }
+        }).fail(function (e) {
+          $("#err").html("error" + JSON.stringify(e));
+        });
+      }); //#login-button
+
+      $(document).on("click", ".loaddata", function () {
+        let subzone_id = $(this).data("subzone_id");
+        getMemberInSubzone(subzone_id);
+      });
+      let members;
+      async function getMemberInSubzone(subzone_id) {
+        console.log("subzone_id", subzone_id);
+
+        members = await $.get(
+          API_URL +
+            "/api/subzone/get_members_last_inactive_invperiod/" +
+            subzone_id,
+          {},
+          function (data) {
+            return data;
+          }
+        );
+        // window.localStorage.setItem("members_subzone_selected",JSON.stringify(members));
+        // window.localStorage.setItem("subzone_selected", JSON.stringify( subzone_id ));
+
+        // console.log("memvers", JSON.parse(window.localStorage.getItem('twnan')));
+        // $(`#loaddata${subzone_id}`).removeClass('bg-warning')
+        // $(`#loaddata${subzone_id}`).addClass('bg-success')
+        await membersLists(members);
+      }
+
+      $("#myInput").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+      });
+
+      async function membersLists(membersSubzone) {
+        let txt = "";
+        console.log("me", membersSubzone.members);
+        membersSubzone.members.forEach((element) => {
+          txt += `
+				<tr>
+					<td>
+					<div class="info-box">
+						<span class="info-box-icon bg-success" style="width:40px !important"><i class="fas fa-user-alt"></i></span>
+
+						<div class="info-box-content">
+							<span class="info-box-text" style="white-space:initial !important">${element.firstname}</span>
+							<span class="info-box-number text-primary"><b>${element.meternumber}</b> [ บ้านเลขที่ ${element.address} ]</span>
+						</div>
+						<!-- /.info-box-content -->
+						<span class="info-box-icon" style="width:25px !important">
+							<a href="javascript:void(0)" onclick="goto_add_meter_info_of_user('${element.meter_id}')">
+								<i class="fas fa-arrow-circle-right"></i>
+							</a>
+						</span>
+
+					</div>
+					</td>
+				</tr>`;
+        });
+        $("#myTable").html(txt);
+      }
+
+      function goto_add_meter_info_of_user() {}
+
+      $(document).on("click", ".gotoRemainBtn", function () {
+        window.location.href = "search_members.html";
+      });
+    </script>
+  </body>
+</html>

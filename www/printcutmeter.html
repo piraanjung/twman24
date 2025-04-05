@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+
+  <link rel="stylesheet" type="text/css" href="css/index.css" />
+  <link rel="stylesheet" href="admin-lte/css/adminlte.css" />
+  <link rel="stylesheet" href="admin-lte/plugin/fontawesome-free/css/fontawesome.css" />
+
+  <script src="js/jquery-3.6.0.min.js"></script>
+  <title>BTPrinter Plugin Demo</title>
+  <style>
+    #myCanvas {
+      background: white;
+      border: 1px solid red;
+    }
+
+    body {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 16px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .small-box p {
+      font-size: 14px;
+    }
+
+    .unit {
+      /* font-size: 0.8rem; */
+      text-align: right;
+    }
+
+    .row {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      margin-right: 1px;
+      margin-left: 1px;
+    }
+
+    #logo_header {
+      .info-box .info-box-icon {
+        border-radius: 0.25rem;
+        -ms-flex-align: center;
+        align-items: center;
+        display: -ms-flexbox;
+        display: flex;
+        /* font-size: 1.875rem; */
+        -ms-flex-pack: center;
+        justify-content: center;
+        text-align: center;
+        width: 140px;
+        background-color: white
+      }
+
+      .info-box .info-box-number {
+        display: block;
+        font-weight: 700;
+        text-align: center;
+        font-size: 17px;
+      }
+
+      .info-box-text {
+        text-align: center;
+      }
+
+      .progress-description {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: center;
+      }
+
+      .progress-description .org_name {
+        font-size: 17px;
+        font-weight: bold;
+      }
+    }
+
+    #meter_infos {
+      .col-6 {
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+        margin-bottom: -10px;
+      }
+
+      p {
+        margin-top: 0;
+        margin-bottom: 0.2rem;
+        /* font-size: 18px; */
+      }
+    }
+
+    #user_info {
+      .col-4 {
+        position: relative;
+        width: 100%;
+        padding-right: 2px;
+        padding-left: 2px;
+      }
+
+      .card {
+        border: 1px solid black;
+        border-radius: 10px;
+      }
+
+      .widget-user-header {
+        /* border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem; */
+        height: 100px;
+        padding: 0.5rem;
+        text-align: end;
+      }
+
+      .description-header {
+        border-bottom: 1px solid black;
+      }
+
+      .widget-user .widget-user-image {
+        left: 0%;
+        margin-left: 0px;
+        position: absolute;
+        top: 15px;
+
+      }
+
+      .widget-user .widget-user-image>img {
+        border: 3px solid #ffffff;
+        height: auto;
+        width: 80px;
+      }
+
+      .widget-user .card-footer {
+        padding-top: 2px;
+      }
+
+      .card-footer {
+        border-top: 1px solid black;
+        /* background-color: white; */
+        color: black;
+      }
+    }
+
+    #owe .table {
+      width: 96%;
+      margin-left: 5px;
+    }
+
+    #owe .table th,
+    #owe .table td {
+      padding: 0.1rem;
+      vertical-align: middle;
+      text-align: center;
+      border: 1px solid black;
+    }
+
+
+    #summary {
+      .info-box .info-box-icon {
+        border-radius: 0.25rem;
+        -ms-flex-align: center;
+        align-items: center;
+        display: -ms-flexbox;
+        display: flex;
+        /* font-size: 1.875rem; */
+        -ms-flex-pack: center;
+        justify-content: center;
+        text-align: center;
+        width: 30px;
+        height: 30px;
+      }
+
+      ul {
+        background-color: white;
+      }
+
+      li a {
+        border-bottom: 1px solid black;
+        color: #000;
+      }
+
+      .info-box-content {
+        border-radius: 0.25rem;
+        border: 2px solid black;
+
+      }
+
+
+    }
+
+    #inv_infos li {
+      background-color: #ffffff;
+    }
+
+    #warningtext {
+      .card-body {
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        min-height: 1px;
+        padding: 0.2rem;
+        /* font-size: 1.12rem; */
+      }
+    }
+
+    .small-box>.inner {
+      padding: 2px !important;
+    }
+
+    .card-footer {
+      padding: 0.1rem 0.1rem;
+      /* background-color: rgba(0, 0, 0, 0.03);
+      border-top: 0 solid rgba(0, 0, 0, 0.125); */
+    }
+
+    .info-box {
+      /* box-shadow: 0 0 1px rgba(17, 1, 1, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2); */
+      border-radius: 0.25rem;
+      background: #ffffff;
+      display: -ms-flexbox;
+      display: flex;
+      margin-bottom: 0.5rem;
+      min-height: 80px;
+      padding: .1rem;
+      position: relative;
+      border: 1px solid black;
+    }
+
+    .widget-user .widget-user-username {
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+
+    .card-body {
+      -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+      min-height: 1px;
+      padding: 0.5rem;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 0.2rem  0.3rem 0.2rem 0.3rem ;
+      /* border: 1px solid black; */
+    }
+
+    .owe_res {
+      text-align: center;
+      border: 1px solid black;
+
+    }
+    #totalpaid_data{
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .description-text {
+      text-transform: uppercase;
+      background-color: black;
+      color: white;
+      margin-top: 5px;
+      display: block;
+    }
+
+    .col-1,
+    .col-2,
+    .col-3,
+    .col-4,
+    .col-5,
+    .col-6,
+    .col-7,
+    .col-8,
+    .col-9,
+    .col-10,
+    .col-11,
+    .col-12,
+    .col,
+    .col-auto,
+    .col-sm-1,
+    .col-sm-2,
+    .col-sm-3,
+    .col-sm-4,
+    .col-sm-5,
+    .col-sm-6,
+    .col-sm-7,
+    .col-sm-8,
+    .col-sm-9,
+    .col-sm-10,
+    .col-sm-11,
+    .col-sm-12,
+    .col-sm,
+    .col-sm-auto,
+    .col-md-1,
+    .col-md-2,
+    .col-md-3,
+    .col-md-4,
+    .col-md-5,
+    .col-md-6,
+    .col-md-7,
+    .col-md-8,
+    .col-md-9,
+    .col-md-10,
+    .col-md-11,
+    .col-md-12,
+    .col-md,
+    .col-md-auto,
+    .col-lg-1,
+    .col-lg-2,
+    .col-lg-3,
+    .col-lg-4,
+    .col-lg-5,
+    .col-lg-6,
+    .col-lg-7,
+    .col-lg-8,
+    .col-lg-9,
+    .col-lg-10,
+    .col-lg-11,
+    .col-lg-12,
+    .col-lg,
+    .col-lg-auto,
+    .col-xl-1,
+    .col-xl-2,
+    .col-xl-3,
+    .col-xl-4,
+    .col-xl-5,
+    .col-xl-6,
+    .col-xl-7,
+    .col-xl-8,
+    .col-xl-9,
+    .col-xl-10,
+    .col-xl-11,
+    .col-xl-12,
+    .col-xl,
+    .col-xl-auto {
+      position: relative;
+      width: 100%;
+      padding-right: 1px;
+      padding-left: 1px;
+    }
+
+    .border-buttom-none {
+      border-bottom: 1px solid white;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card" id="connect2">
+    <div class="card-header h4">เลือกปริ้นเตอร์</div>
+    <div class="card-body">
+      <h5>เชื่อมต่อบลูธูท</h5>
+      <div>1. กดปุ่มสถานะเพื่อตรวจสอบว่าเปิดบลูธูทหรือยัง</div>
+      <button type="button" class="btn btn-info col-3 m-1" id="btnStatus">
+        สถานะ
+      </button>
+      <div>2. ทำการเลือกเครื่องปริ้นบลูธูทที่ต้องการใช้งาน</div>
+      <select size="1" id="btpPrinter" class="form-control-lg" disabled="disabled"></select>
+      <button type="button" class="btn btn-primary col-4 m-1" id="btnList">
+        เลือกบลูธูท
+      </button>
+      <div id="btnConnect_div" class="">
+        <div>3. ทำการเขื่อมต่อเครื่องปริ้นบลูธูทกับระบบ</div>
+        <button type="button" class="btn btn-success col-4 m-1" id="btnConnect">
+          เชื่อมต่อ
+        </button>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 mb-3 mt-3">
+      <button id="printBase64_2" class="btn btn-success">ปริ้นใบแจ้งตัดมิเตอร์</button>
+      <button id="back_btn" class="btn btn-warning">
+        กลับไปหน้าผู้ถูกตัดมิเตอร์
+      </button>
+    </div>
+  </div>
+
+  <div id="qrcode" style="
+          width: 300px;
+          height: 1010px;
+          background-color: white;
+        ">
+    <!-- height: 1460px; -->
+
+
+    <div class="row">
+      <div class="col-12 text-center">
+        <img src="img/logogray_black_and_white.jpg" alt="" width="170" height="120">
+      </div>
+      <div class="col-12" id="logo_header">
+        <div class="info-box">
+
+          <div class="info-box-content">
+            <span class="info-box-number">
+              <div>ใบแจ้งตัดมิเตอร์น้ำประปา</div>
+            </span>
+            <span class="info-box-text">( ไม่ใช่ใบเสร็จรับเงิน )</span>
+            <div class="progress">
+              <div class="progress-bar" style="width: 100%; border: 1px solid black;"></div>
+            </div>
+            <span class="progress-description">
+              <div class="org_name">เทศบาลตำบลห้องแซง</div>
+              <div class="phone">โทร.08-81005436</div>
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="row" id="user_info">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <div>ข้อมูลผู้ใช้น้ำ</div>
+
+            <div class="text-right" id="username_data"></div>
+            <div class="text-right"><span id="address_data"></span> ต.ห้องแซง อ.เลิงนกทา </div>
+            <div class="text-right">จ.ยโสธร 35120</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row" id="summary">
+      <div class="info-box col-12">
+        <div class="info-box-content ">
+          <div class="card-footer p-0">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a href="#" class="nav-link text-center text-bold bg-black text-white">
+                  ตัดมิเตอร์ <span id="inv_period_data"></span>
+                </a>
+              </li>
+            
+              <li class="nav-item">
+                <a href="#" class="nav-link" style="border-bottom: 1px solid white;">
+                  เลขมิเตอร์ <span class="float-right" id="meter_id_data"></span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  วันตัดมิเตอร์ <span class="float-right" id="record_date_data"></span>
+                </a>
+              </li>
+            
+              <li class="nav-item">
+                <a href="#" class="nav-link mb-2 ">
+                  <div style="text-indent: 30px;"> ท่านได้ค้างชำระค่าน้ำประปาโดยมียอดค้างชำระ <span id="owe_count_data" class="h5"></span> รอบบิล</div> 
+                  <div>
+                    รวมเป็นเงิน
+                    <span class="float-right"><span id="owe_sum_data" class="h5"></span> <sup>บาท</sup></span>
+                  </div>  
+                  </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="#" class="nav-link" style="border-bottom: 1px solid white; text-indent: 30px;">
+                  งานประปาเทศบาลตำบลห้องแซง จึงได้ดำเนินการตัดมิเตอร์ของท่าน
+                </a>
+              </li>
+             
+              <li class="nav-item nav-link"  style="text-indent: 30px;">
+                  ขอให้ท่านไปติดต่อเทศบาลตำบลห้องแซงเพื่อ
+                  <div>1. ชำระเงินค่าน้ำประปาที่ค้าง </div>
+                  <div> &nbsp; &nbsp;&nbsp;ชำระทั้งหมด</div>
+                  <div>2. ทำเรื่องขอติดตั้งมิเตอร์ใหม่ </div>
+              </li>
+             
+              <li class="nav-item mt-2">
+                <a href="#" class="nav-link" style="border-top: 1px solid black; border-bottom: 1px solid white">
+
+                    ภายในวันที่
+                    </a>
+                <a href="#" class="nav-link h4" style="border-top: 1px solid white;text-align: center;" id="expired_date_data">
+                  
+                </a>
+              </li>
+              <li class="nav-item mt-2">
+                
+                <a href="#" class="nav-link" style="border-top: 1px solid white; text-indent: 30px;">
+                  ทั้งนี้ งานประปาเทศบาลตำบลห้องแซง ต้องขออภัย หากท่านได้ชำระค่าใช้น้ำประปาเป็นที่เรียบร้อยแล้ว ก่อนได้รับใบแจ้งตัดมิเตอร์นี้
+                </a>
+              </li>
+            </ul>
+
+            
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+  <canvas id="myCanvas" width="350" height="1330" style="opacity: 0"></canvas>
+  <!-- 1170 -->
+
+  <textarea id="mybase64" cols="3" style="opacity: 0"></textarea>
+  <textarea id="qrcode_textarea" style="opacity: 0"></textarea>
+  <!-- <div>canvastest</div> -->
+  <textarea id="canvastest" style="opacity: 0"></textarea>
+
+  </div>
+  <script type="text/javascript" src="cordova.js"></script>
+  <script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
+  <script type="text/javascript" src="js/api_url.js"></script>
+  <script type="text/javascript" src="js/qrcode.js"></script>
+  <script type="text/javascript" src="js/html2canvas.js"></script>
+  <script>
+    let imgData;
+    let cutmeter_data_for_print;
+    let subzone_selected;
+    let twman;
+    let selected_cutmeter_user;
+    $(document).on("click", "#back_btn", function () {
+      window.location.href = "cutmeter.html";
+    });
+
+    $(document).ready(function () {
+      cutmeter_data_for_print = JSON.parse(window.localStorage.getItem('selected_cutmeter_user'))
+      let connect_status = window.localStorage.getItem("connect_status");
+      cutmeter_data_for_print = JSON.parse(
+        window.localStorage.getItem("cutmeter_data_for_print")
+      );
+      console.log('cutmeter_data_for_print', cutmeter_data_for_print)
+
+      selected_cutmeter_user = JSON.parse(
+        window.localStorage.getItem("selected_cutmeter_user")
+      );
+
+      subzone_selected = JSON.parse(
+        window.localStorage.getItem("subzone_selected")
+      );
+      twman = JSON.parse(window.localStorage.getItem("twman"));
+
+      //สร้าง canvas และ ตัวแปร
+      onCanvas();
+
+      //แปลง ข้อมูลใน div เป็น canvas base64  แล้วแปลงเป็น image
+      html2canvas(document.getElementById("qrcode")).then(function (
+        canvas2
+      ) {
+        imgData = canvas2.toDataURL(
+          "image/jpeg"
+        );
+        $('#canvastest').val(imgData)
+      });
+
+
+      if (connect_status == 1) {
+        console.log("connect_status === 1")
+        $("#connect2").addClass("hidden");
+        autoPrintBase64();
+      } else {
+        console.log("connect_status != 1")
+
+        window.localStorage.setItem("connect_status", 1);
+        $("#connect2").removeClass("hidden");
+        onCanvas();
+      }
+    });
+
+    $(document).on("change", "#btpPrinter", function () {
+      // $("#btnConnect_div").removeClass("hidden");
+    });
+
+    async function onCanvas() {
+
+      let _date = new Date();
+      let m_invPeroid = _date.getMonth() + 1;
+      let m_invPeroid_formate =
+        m_invPeroid < 10 ? `0${_date.getMonth() + 1}` : _date.getMonth() + 1;
+      let y_invPeroid = _date.getFullYear();
+      let y_th_invPeroid = y_invPeroid + 543;
+      let y_th_invPeroid_substr = y_th_invPeroid.toString().substr(2);
+      let lastdate = new Date(y_invPeroid, m_invPeroid, 0).getDate();
+      var months_th = [
+        "มกราคม",
+        "กุมภาพันธ์",
+        "มีนาคม",
+        "เมษายน",
+        "พฤษภาคม",
+        "มิถุนายน",
+        "กรกฎาคม",
+        "สิงหาคม",
+        "กันยายน",
+        "ตุลาคม",
+        "พฤศจิกายน",
+        "ธันวาคม",
+      ];
+
+      var months_short_th = [
+        "ม.ค.",
+        "ก.พ.",
+        "มี.ค.",
+        "เม.ย.",
+        "พ.ค.",
+        "มิ.ย.",
+        "ก.ค",
+        "ส.ค.",
+        "ก.ย.",
+        "ต.ค.",
+        "พ.ย.",
+        "ธ.ค.",
+      ];
+
+      var date = new Date();
+          date.setDate(date.getDate() + 7);
+      
+      let dateAdd7daysArr = date.toISOString().slice(0, 10).split("-")
+      let expiredDateNext7Day = `${dateAdd7daysArr[2]}  ${months_th[dateAdd7daysArr[1] - 1]} ${(parseInt(dateAdd7daysArr[0]) + 543)}`
+
+      let inv_p_arr = twman.inv_period[0].inv_p_name.split("-");
+      let inv_period_month_name = months_th[parseInt(inv_p_arr[0]) - 1];
+      let curr_month_th = months_th[parseInt(inv_p_arr[0] - 1)];
+      let curr_month_short_th = months_short_th[parseInt(inv_p_arr[0])];
+      let save_date =
+        _date.getDate() +
+        " " +
+        curr_month_short_th +
+        " " +
+        y_th_invPeroid_substr;
+
+      
+      //สร้างตัวแปรใน 
+      console.log('selected_cutmeter_user canvas',selected_cutmeter_user)
+
+      // $('#inv_period_data').html(inv_period_month_name + " " + y_th_invPeroid_substr)
+      // $('#inv_id_data').html(cutmeter_data_for_print.res.datas.acc_trans_id_fk)
+      $('#user_id_data').html(selected_cutmeter_user[0].user_id)
+      $('#meter_id_data').html(selected_cutmeter_user[0].meternumber)
+      $('#username_data').html(selected_cutmeter_user[0].name)
+      $('#address_data').html(selected_cutmeter_user[0].address + " " + selected_cutmeter_user[0].zone)
+      $('#record_date_data').html(save_date)
+      $('#lastmeter_data').html(parseInt(cutmeter_data_for_print.lastmeter))
+      $('#currentmeter_data').html(cutmeter_data_for_print.currentmeter)
+      $('#expired_date_data').html(expiredDateNext7Day.toString())
+      
+
+      let paid = cutmeter_data_for_print.water_used === 0 ? 0 : cutmeter_data_for_print.paid;
+      let reserve = cutmeter_data_for_print.water_used === 0 ? cutmeter_data_for_print.paid : 0;
+
+      $('#water_used_data').html(parseInt(cutmeter_data_for_print.water_used))
+      $('#raw_paid_data').html(parseFloat(paid).toFixed(2))
+      $("#reserve_paid_data").html(parseFloat(reserve).toFixed(2))
+      $("#vat_data").html(parseFloat(cutmeter_data_for_print.vat).toFixed(2))
+      $('#owe_count_data').html(selected_cutmeter_user[0].owecount)
+      $('#owe_sum_data').html(cutmeter_data_for_print.totalpaid)
+      // $("#totalpaid_data").html(cutmeter_data_for_print.res.datas.net_paid)
+
+
+    //   let zero18 = "000000000000000000";
+    //   $("#qrcode #qrcode_div").html("")
+    //   let inv_id =
+    //     zero18.slice(0, 18 - cutmeter_data_for_print.res.datas.acc_trans_id_fk.toString().length) +
+    //     "" +
+    //     cutmeter_data_for_print.res.datas.acc_trans_id_fk;
+    //   let meter_id =
+    //     zero18.slice(0, 18 - selected_cutmeter_user[0].user_id.toString().length) +
+    //     "" +
+    //     selected_cutmeter_user[0].user_id;
+
+    //   let payment_str = `|099400035262000\n${meter_id}\n${inv_id}\n${cutmeter_data_for_print.res.datas.net_paid.toString().replace(".", "")}`;
+    //   $("#qrcode_textarea").val(payment_str);
+
+    //   //สร้่าง qrcode ใน div
+    //   $("#qrcode #qrcode_div").append()
+    //     .qrcode({
+    //       width: 200,
+    //       height: 200,
+    //       text: $("#qrcode_textarea").val(),
+    //     });
+
+    }
+
+    document
+      .getElementById("printBase64_2")
+      .addEventListener("click", function () {
+        creteCanvasToBase64().then(function () {
+          BTPrinter.printBase64(
+            function (data) {
+              console.log("Success");
+              console.log(data);
+              window.location.href = "cutmeter.html";
+            },
+            function (err) {
+              console.log("Error");
+              console.log(err);
+            },
+            imgData,
+            0
+          ); //base64 string, a
+        });
+      });
+
+
+    function autoPrintBase64() {
+      BTPrinter.printBase64(
+        function (data) {
+          console.log("Success");
+          console.log(data);
+          window.location.href = "cutmeter.html";
+        },
+        function (err) {
+          console.log("Error");
+          console.log(err);
+        },
+        imgData,
+        0
+      ); //base64 string, a
+    }
+
+    async function creteCanvasToBase64() {
+      var canvas = document.getElementById("myCanvas");
+      // imgData = canvas.toDataURL();
+      // document.getElementById("mybase64").innerHTML = imgData;
+    }
+
+    function onDeviceReady() {
+      window.screen.orientation.lock("portrait");
+    }
+    document.addEventListener('deviceready', function () {
+      onDeviceReady()
+    })
+
+  </script>
+</body>
+
+</html>

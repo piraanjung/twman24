@@ -1,0 +1,57 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {
+      "res/xml/config.xml": {
+        "parents": {
+          "/*": [
+            {
+              "xml": "<feature name=\"BluetoothPrinter\"><param name=\"android-package\" value=\"br.com.cordova.printer.bluetooth.BluetoothPrinter\" /></feature>",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "AndroidManifest.xml": {
+        "parents": {
+          "/*": [
+            {
+              "xml": "<uses-permission android:maxSdkVersion=\"30\" android:name=\"android.permission.BLUETOOTH\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.BLUETOOTH_SCAN\" android:usesPermissionFlags=\"neverForLocation\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.BLUETOOTH_CONNECT\" />",
+              "count": 1
+            }
+          ]
+        }
+      }
+    }
+  },
+  "installed_plugins": {
+    "cordova-plugin-btprinter": {
+      "PACKAGE_NAME": "com.andreszs.btprinter.demo"
+    }
+  },
+  "dependent_plugins": {},
+  "modules": [
+    {
+      "id": "cordova-plugin-btprinter.BluetoothPrinter",
+      "file": "plugins/cordova-plugin-btprinter/www/BluetoothPrinter.js",
+      "pluginId": "cordova-plugin-btprinter",
+      "clobbers": [
+        "BTPrinter"
+      ]
+    }
+  ],
+  "plugin_metadata": {
+    "cordova-plugin-btprinter": "0.1.0-dev"
+  }
+}
