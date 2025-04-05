@@ -165,10 +165,12 @@
     <script type="text/javascript" src="js/my.js"></script>
 
     <script>
+      let qrcodeText = '';
       function scanQR() {
         cordova.plugins.barcodeScanner.scan(
         function (result) {
-          alert("Scanned code: " + result.text + "\nFormat: " + result.format + "\nCancelled: " + result.cancelled);
+          qrcodeTextFilter(result.text);
+          console.log("Scanned code: " + result.text + "\nFormat: " + result.format + "\nCancelled: " + result.cancelled);
         },
         function (error) {
           alert("Scanning failed: " + error);
@@ -181,10 +183,17 @@
           saveHistory: true, // default false (Android only)
           prompt: "Place a QR code inside the scan area", // Android
           resultDisplayDuration: 500, // Android, in ms
-          formats: "QR_CODE,PDF_417", // default: all
+          formats: "QR_CODE", // default: all
           orientation: "portrait", // Android only
         }
       );
+    }
+
+    function qrcodeTextFilter(qrcodeText){
+      $('#myInput').val(qrcodeText)
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(qrcodeText) > -1);
+        });
     }
     </script>
 

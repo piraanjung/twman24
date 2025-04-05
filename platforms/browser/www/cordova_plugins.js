@@ -27,7 +27,8 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "cordova-plugin-btprinter": "0.1.0-dev",
-    "phonegap-plugin-barcodescanner": "8.1.0"
+    "phonegap-plugin-barcodescanner": "8.1.0",
+    "cordova-plugin-compat": "1.2.0"
 }
 // BOTTOM OF METADATA
 });

@@ -2,7 +2,6 @@
   "devDependencies": {
     "cordova-android": "^13.0.0",
     "cordova-browser": "^7.0.0",
-    "cordova-plugin-barcodescanner": "^0.7.4",
     "cordova-plugin-btprinter": "github:CesarBalzer/Cordova-Plugin-BTPrinter",
     "cordova-plugin-compat": "^1.2.0",
     "phonegap-plugin-barcodescanner": "^8.1.0"
@@ -12,7 +11,8 @@
       "cordova-plugin-btprinter": {},
       "phonegap-plugin-barcodescanner": {
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
-      }
+      },
+      "cordova-plugin-compat": {}
     },
     "platforms": [
       "android",
